@@ -1,4 +1,4 @@
-getgenv().serial = {
+getgenv().aimbot = {
     Settings = {
         Prediction = 0.0440, 
         AutoClick = false, -- Dont work atm
@@ -15,4 +15,6 @@ getgenv().serial = {
         Height = 5,
         Speed = 20,
     },
-}
+end
+    end
+          end)
