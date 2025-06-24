@@ -1,10 +1,10 @@
 getgenv().aimbot = {
     Settings = {
         Prediction = 0.0440, 
-        AutoClick = false, -- Dont work atm
+        AutoClick = false, -- Ainda não funcional
     },
     TargetLock = {
-        LockedTarget = nil, -- dont change
+        LockedTarget = nil, -- Não altere
         AimPart = "Head", 
         Enabled = true, 
     },
@@ -15,6 +15,4 @@ getgenv().aimbot = {
         Height = 5,
         Speed = 20,
     },
-end
-    end
-          end)
+}
