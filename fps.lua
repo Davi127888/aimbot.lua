@@ -1,60 +1,56 @@
--- Script FPS com iluminação de dia e otimização imediata - Por Davi
-local lighting = game:GetService("Lighting")
-local workspace = game:GetService("Workspace")
+-- FPS BOOST MOBILE | DELTA EXECUTOR | UNIVERSAL
 
--- 🌞 Iluminação clara tipo dia
-lighting.TimeOfDay = "14:00:00" -- 2 da tarde
-lighting.Brightness = 2
-lighting.GlobalShadows = false
-lighting.OutdoorAmbient = Color3.new(1, 1, 1)
-lighting.FogEnd = 1e10
-lighting.FogStart = 0
-lighting.FogColor = Color3.new(1, 1, 1)
-lighting.ClockTime = 14
-
--- Desativa efeitos visuais pesados
-for _, efeito in ipairs(lighting:GetChildren()) do
-	if efeito:IsA("PostEffect") then
-		efeito.Enabled = false
-	end
-end
-
--- 🧱 Função para otimizar blocos
-local function otimizarParte(parte)
-	if parte:IsA("BasePart") then
-		parte.Material = Enum.Material.SmoothPlastic
-		parte.Reflectance = 0
-		parte.CastShadow = false
-	end
-end
-
--- 🧼 Otimizar partículas
-local function desativarParticulas(obj)
-	if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
-		obj.Enabled = false
-	end
-end
-
--- Aplicar em todo o mapa
-for _, objeto in ipairs(workspace:GetDescendants()) do
-	otimizarParte(objeto)
-	desativarParticulas(objeto)
-end
-
--- Otimização imediata para novos blocos e partículas
-workspace.DescendantAdded:Connect(function(objeto)
-	otimizarParte(objeto)
-	desativarParticulas(objeto)
+-- FPS automático / ilimitado
+pcall(function()
+    setfpscap(999)
 end)
 
--- Hook para blocos criados por scripts
-workspace.ChildAdded:Connect(function(obj)
-	if obj:IsA("Model") or obj:IsA("Folder") then
-		for _, item in ipairs(obj:GetDescendants()) do
-			otimizarParte(item)
-			desativarParticulas(item)
-		end
-	elseif obj:IsA("BasePart") then
-		otimizarParte(obj)
-	end
+-- Serviços
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+local RunService = game:GetService("RunService")
+
+-- Otimização de gráficos
+Lighting.GlobalShadows = false
+Lighting.FogEnd = 9e9
+Lighting.Brightness = 1
+
+pcall(function()
+    settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
 end)
+
+-- Remove efeitos pesados
+for _, v in pairs(Lighting:GetChildren()) do
+    if v:IsA("PostEffect") or v:IsA("BloomEffect") or v:IsA("SunRaysEffect") 
+    or v:IsA("ColorCorrectionEffect") or v:IsA("BlurEffect") then
+        v:Destroy()
+    end
+end
+
+-- Otimiza todas as partes do mapa
+for _, v in pairs(workspace:GetDescendants()) do
+    if v:IsA("BasePart") then
+        v.Material = Enum.Material.Plastic
+        v.Reflectance = 0
+    elseif v:IsA("Decal") or v:IsA("Texture") then
+        v.Transparency = 1
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Enabled = false
+    end
+end
+
+-- Remove roupas detalhadas (menos lag)
+for _, v in pairs(Players:GetPlayers()) do
+    if v.Character then
+        for _, x in pairs(v.Character:GetDescendants()) do
+            if x:IsA("Accessory") or x:IsA("Clothing") then
+                x:Destroy()
+            end
+        end
+    end
+end
+
+-- Prioridade máxima do jogo
+RunService:Set3dRenderingEnabled(true)
+
+print("FPS BOOST ATIVADO | DELTA EXECUTOR")
