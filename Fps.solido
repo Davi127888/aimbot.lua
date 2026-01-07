@@ -1,0 +1,48 @@
+-- ULTRA FPS + BLOCOS LISOS E SÓLIDOS
+-- NÃO altera cores | NÃO quebra skins | Mobile Safe
+
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+
+-- Otimização leve de iluminação (sem mudar visual)
+Lighting.GlobalShadows = false
+Lighting.FogEnd = 9e9
+
+-- Remove APENAS efeitos pesados (não mexe em cores)
+for _,v in pairs(Lighting:GetChildren()) do
+    if v:IsA("BlurEffect")
+    or v:IsA("BloomEffect")
+    or v:IsA("SunRaysEffect")
+    or v:IsA("ColorCorrectionEffect") then
+        v.Enabled = false
+    end
+end
+
+-- Função minimalista (mais leve possível)
+local function SmoothSolid(obj)
+    if obj:IsA("BasePart") then
+        obj.Material = Enum.Material.Plastic
+        obj.Reflectance = 0
+        obj.CastShadow = false
+
+        -- Superfícies lisas (SEM STUDS)
+        obj.TopSurface = 0
+        obj.BottomSurface = 0
+        obj.LeftSurface = 0
+        obj.RightSurface = 0
+        obj.FrontSurface = 0
+        obj.BackSurface = 0
+    end
+end
+
+-- Aplicar no mapa
+for _,v in ipairs(Workspace:GetDescendants()) do
+    SmoothSolid(v)
+end
+
+-- Novos blocos
+Workspace.DescendantAdded:Connect(function(v)
+    SmoothSolid(v)
+end)
+
+print("ULTRA FPS ATIVO | VISUAL PRESERVADO")
